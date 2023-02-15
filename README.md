@@ -3,7 +3,7 @@ Repositorio que compila los laboratorios realizados durante la clase de Diseño 
 
 Para observar los laboratorios que se contienen dentro de este repositorio referirse a los siguientes directorios:
 
-- 'Hola, aqui va un link de directorio (Todavia no esta implementado)'
+- [Laboratorio 1](./Lab%20A/)
 
 ## Autor  
 👤 Andrés de la Roca  
