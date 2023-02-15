@@ -18,3 +18,21 @@ Para este laboratorio se siguieron los siguientes objetivos:
 
 #### Salida
 - Por cada AFN (NFA) generado se de renderizara una imagen con el grafo correspondiente para el Automata Finito generado, mostrando el estado inicial, estados adicionales, estado de aceptacion y las transiciones con sus simbolos correspondientes.
+
+## Prerequisitos
+ - Python 3.10.^
+
+## Uso
+```
+Correr programa de Python con un IDE o en la terminal
+```
+
+## Ejemplo
+```
+W I P
+```
+
+## Autor  
+👤 Andrés de la Roca  
+- <a href = "https://www.linkedin.com/in/andr%C3%A8s-de-la-roca-pineda-10a40319b/">Linkedin</a>  
+- <a href="https://github.com/andresdlRoca">Github</a>  
