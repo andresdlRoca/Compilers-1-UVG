@@ -1,8 +1,5 @@
 from postfix import infix2postfix
-# from thompson import AFND
-# from reader import Reader
-# from render import graph_automata
-# from parserautomata import Parser
+from afn import NFA
 
 class reg2automata:
     def __init__(self, regex:str) -> None:
@@ -16,4 +13,4 @@ class reg2automata:
         return self.regex_infix
 
     def thompsonAFN(self):
-        pass
+        table = NFA()
