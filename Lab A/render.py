@@ -1,17 +1,14 @@
-import pandas as pd
-import graphviz
-import os
+from graphviz import Digraph
 
-os.environ['PATH'] += os.pathsep + 'C:/Program Files/Graphviz/bin/'
-
-def graph_automata(self, states, alphabet, initial_state, accepting_states, trans_func):
-    states = set(states)
-    alphabet = set(alphabet)
-
-    automata = graphviz.SimpleDFA(states, alphabet, initial_state, accepting_states, trans_func)
-
-    graph = automata.trim().to_graphviz()
-
-    graph.attr(rankdir='LR')
-
-    graph.render('Nier', format='pdf', view=True)
+def visualize_nfa(nfa):
+    """Visualizes an NFA using graphviz."""
+    dot = Digraph()
+    for i in range(nfa.num_states):
+        dot.node(str(i), shape='circle', style='bold' if i in nfa.accept_states else '')
+    dot.node('start', shape='point')
+    dot.edge('start', str(nfa.start_state))
+    for src_state, transitions in nfa.transitions.items():
+        for symbol, dest_states in transitions.items():
+            for dest_state in dest_states:
+                dot.edge(str(src_state), str(dest_state), label=symbol)
+    return dot
