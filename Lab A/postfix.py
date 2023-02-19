@@ -1,71 +1,37 @@
-def infix2Postfix(infix_expression:str):
-    stack = []
+def infix2postfix(infix_expression: str):
     postfix_exp = []
-    special_chars = ['|', '(', ')', '*', '?']
+    stack = []
 
     for i in infix_expression:
-        try: 
-            if i in special_chars:
-                stack.append(i)
-                
-                if i == ')':
-                    a = len(stack)-2
-                    while(stack[a] != "("):
-                        postfix_exp.append(stack[a])
-                        stack[a]=""
-                        a = a-1
-                    stack[a] = ""
-                    stack[stack.index(")")] = ""
-                    while "" in stack:
-                        stack.remove("")
-            
-                elif i == '?':
-                    if len(stack) > 1 :
-                        if stack[-2] == '*':
-                            postfix_exp.append(stack.pop(len(stack)-2))
-                        elif stack[-2] =='?':
-                            postfix_exp.append(stack.pop(len(stack)-2))
-                
-                elif i == '|':
-                    if len(stack) > 1:
-                        if stack[-2] == '*':
-                            postfix_exp.append(stack.pop(len(stack)-2))
-                        elif stack[-2] == '?':
-                            postfix_exp.append(stack.pop(len(stack)-2))
-                        elif stack[-2] == '|':
-                            postfix_exp.append(stack.pop(len(stack)-2))
-                
-                elif i == '*':
-                    if len(stack) > 1:
-                        if stack[-2] == '*':
-                            postfix_exp.append(stack.pop(len(stack)-2))
-                    
-            else:
-                try:
-                    if i.isalnum():
-                        postfix_exp.append(i)
-                except:
-                    print('El caracter ingresado no es alfanumerico')
-        except:
-            print('El caracter especial ingresado no existe')
+        if i.isalnum():
+            postfix_exp.append(i)
+        elif i == '(':
+            stack.append(i)
+        elif i == ')':
+            while stack and stack[-1] != '(':
+                postfix_exp.append(stack.pop())
+            stack.pop()
+        else:
+            while stack and precedence(i) <= precedence(stack[-1]):
+                postfix_exp.append(stack.pop())
+            stack.append(i)
     
-    while(len(stack) > 0):
-        postfix_exp.append(stack.pop(len(stack)-1))
+    while stack:
+        postfix_exp.append(stack.pop())
+    
+    return ''.join(postfix_exp)
 
-    return postfix_exp
-
-            
-
-def precedence(char):
-    if char in ['+', '-']:
-        return 1
-    elif char in ['*', '/']:
-        return 2
-    elif char in ['^']:
+def precedence(char:str):
+    if char == '*':
         return 3
-    else: 
+    elif char == '.':
+        return 2
+    elif char == '|':
+        return 1
+    elif char == '(':
         return 0
-
+    else:
+        return 0
 
 
 

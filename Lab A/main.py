@@ -1,6 +1,8 @@
-from regex2NFA import reg2NFA
+from regex2automata import reg2automata
 
 expresion = "(b|b)*abb(a|b)*"
 
-automata = reg2NFA(expresion)
-print(automata.get_regex())
+automata = reg2automata(expresion)
+print(automata.get_postfix())
+
+# automata.thompsonAFN()
