@@ -1,5 +1,8 @@
 *.pdf
 *.code-workspace
+automata
+!nfa.pdf
+test.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

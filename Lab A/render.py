@@ -1,14 +1,28 @@
-from graphviz import Digraph
+import graphviz
 
-def visualize_nfa(nfa):
-    """Visualizes an NFA using graphviz."""
-    dot = Digraph()
-    for i in range(nfa.num_states):
-        dot.node(str(i), shape='circle', style='bold' if i in nfa.accept_states else '')
-    dot.node('start', shape='point')
-    dot.edge('start', str(nfa.start_state))
-    for src_state, transitions in nfa.transitions.items():
-        for symbol, dest_states in transitions.items():
-            for dest_state in dest_states:
-                dot.edge(str(src_state), str(dest_state), label=symbol)
-    return dot
+def automata2graph(automata):
+    g = graphviz.Digraph()
+    epsilon = 'ε'
+
+    # Add the states
+    for state in automata.states:
+        statestring = f'q{str(state)}'
+        if state == automata.start_state:
+            g.node(statestring, shape='house')
+        if state in automata.accept_states:
+            g.node(statestring, shape='doublecircle')
+        else:
+            if state in automata.transitions:
+                g.node(statestring, shape='circle')
+
+    # Add the transitions
+    for (from_state, symbol), to_states in automata.transitions.items():
+        fromstatestring = f'q{str(from_state)}'
+        for to_state in to_states:
+            tostatestring = f'q{str(to_state)}'
+            if symbol == epsilon:
+                g.edge(fromstatestring, tostatestring, label='ε')
+            else:
+                g.edge(fromstatestring, tostatestring, label=symbol)
+
+    return g

@@ -2,8 +2,7 @@ from regex2automata import reg2automata
 
 # NFA Testing
 expresion = "(b|b)*abb(a|b)*"
-# expresion = '(0|1)*01(0|1)*'
-# expresion = 'a(b|c)*d'
+# expresion = 'ab*ab*'
 
 # Incorrect testing
 # expresion = '((a|ba)'
@@ -14,4 +13,4 @@ expresion = "(b|b)*abb(a|b)*"
 automata = reg2automata(expresion)
 print(automata.get_postfix())
 
-# automata.thompsonAFN()
+automata.thompson_nfa_construction()
