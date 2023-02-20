@@ -7,13 +7,12 @@ def automata2graph(automata):
     # Add the states
     for state in automata.states:
         statestring = f'q{str(state)}'
-        if state == automata.start_state:
-            g.node(statestring, shape='house')
         if state in automata.accept_states:
             g.node(statestring, shape='doublecircle')
         else:
-            if state in automata.transitions:
-                g.node(statestring, shape='circle')
+            g.node(statestring, shape='circle')
+        if state == automata.start_state:
+            g.node(statestring, shape='house')
 
     # Add the transitions
     for (from_state, symbol), to_states in automata.transitions.items():
