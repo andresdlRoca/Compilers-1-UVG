@@ -21,16 +21,19 @@ Para este laboratorio se siguieron los siguientes objetivos:
 
 ## Prerequisitos
  - Python 3.10.^
+ - graphviz 0.20.1 o mayor
+## Ejemplo de uso
+```
+from regex2automata import reg2automata
+# NFA Testing
+expresion = "(b|b)*abb(a|b)*"
 
-## Uso
-```
-Correr programa de Python con un IDE o en la terminal
-```
+automata = reg2automata(expresion)
+print(automata.get_postfix()) #Prints postfix expression
 
-## Ejemplo
+automata.thompson_nfa_construction() # Builds nfa from postfix expression and displays it as a PDF.
 ```
-W I P
-```
+[Testing file](main.py)
 
 ## Autor  
 👤 Andrés de la Roca  
