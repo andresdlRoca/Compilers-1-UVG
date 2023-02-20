@@ -1,8 +1,7 @@
 from postfix import infix2postfix
-from afn import NFA
 
 class reg2automata:
-    def __init__(self, regex:str) -> None:
+    def __init__(self, regex:str):
         self.regex_postfix = infix2postfix(regex)
         self.regex_infix = regex
     
@@ -12,5 +11,3 @@ class reg2automata:
     def get_infix(self):
         return self.regex_infix
 
-    def thompsonAFN(self):
-        table = NFA()
