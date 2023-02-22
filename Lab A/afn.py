@@ -65,11 +65,12 @@ def thompson(postfix:str):
     transitionkeys = []
     for i in last_nfa.transitions:
         transitionkeys += i
-        
+    
+    transition = {}
     for i in range(0, max(last_nfa.states) -1):
         if i not in transitionkeys:
-            transition = {(i, epsilon): [i+1]}
-            last_nfa.transitions.update(transition)
-
+            transition.update({(i, epsilon): [i+1]})
+    
+    last_nfa.transitions.update(transition)
     # return nfa
     return last_nfa
