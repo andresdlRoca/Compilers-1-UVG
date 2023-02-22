@@ -15,7 +15,10 @@ class reg2automata:
         return self.regex_infix
 
     def thompson_nfa_construction(self):
-        nfa = thompson(self.regex_postfix)
-        graph = automata2graph(nfa)
+        self.nfa = thompson(self.regex_postfix)
+        graph = automata2graph(self.nfa)
         graph.render('nfa', view=True)
+    
+    def matching(self, inputstring:str): #Matches a string to a regex expression
+        pass
 

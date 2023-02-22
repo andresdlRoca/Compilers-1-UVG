@@ -32,32 +32,43 @@ def infix2postfix(infix_expression: str):
 def check_regex(regex:str):
     # Check if the regex starts or ends with a quantifier or alternation symbol
     if regex.startswith("*") or regex.startswith("+") or regex.startswith("|"):
-        raise Exception('Invalid start of regex')
+        raise Exception(f'{regex[0]} is an invalid start of regex on the first position of >{regex[0]}<{regex[1:]}')
     if regex.endswith('|'):
-        raise Exception('Invalid end of regex')
+        raise Exception(f'{regex[-1]} is an invalid ending of regex on the last position of {regex[:-1]}>{regex[-1]}<')
 
     #Check for balanced parentheses
     stack = []
+    index = 0
     for char in regex:
         if char == '(':
             stack.append(char)
         elif char == ')':
             if not stack:
-                raise Exception('Regex not balanced')
+                raise Exception(f'Regex not balanced; {regex[0:index]}>{regex[index]}<{regex[index+1:]}')
             stack.pop()
+        index += 1
     
+    index = 0
     if stack:
-        raise Exception('Regex not balanced')
-    
+        for char in regex:
+            if char in stack:
+                raise Exception(f'Regex not balanced; {regex[0:index]}>{regex[index]}<{regex[index+1:]}')
+        index += 1
     #Check for invalid combinations
     if '**' in regex:
-        raise Exception('Invalid combination of symbols')
-    if '+*' in regex or '*+' in regex:
-        raise Exception('Invalid combination of symbols')
+        index = regex.find('**')
+        raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
+    if '+*' in regex:
+        index = regex.find('+*')
+        raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
+    elif '*+' in regex:
+        index = regex.find('*+')
+        raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
 
     #Invalid alternations
     if '||' in regex:
-        raise Exception('Invalid alternations')
+        index = regex.find('||')
+        raise Exception(f'Invalid combination of alternations; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
 
 def precedence(char:str):
     if char == '*':
