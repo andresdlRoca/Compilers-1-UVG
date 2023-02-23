@@ -6,6 +6,7 @@ expresion = "(b|b)*abb(a|b)*"
 # expresion = 'ab*ab*'
 
 # Incorrect testing
+# expresion = "(|ab)"
 # expresion = '((a|ba)aba'
 # expresion = 'a(a|ba)a)aaa'
 # expresion = 'b*a||a'

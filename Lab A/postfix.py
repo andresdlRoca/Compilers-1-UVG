@@ -30,6 +30,14 @@ def infix2postfix(infix_expression: str):
 
 #Check some common regex errors
 def check_regex(regex:str):
+
+    valid_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789().+*?|"
+    index = 0
+    for i in regex:
+        if i not in valid_chars:
+            raise Exception(f'Invalid character; {regex[0:index]}>{regex[index]}<{regex[index+1:]}')
+        index += 1
+
     # Check if the regex starts or ends with a quantifier or alternation symbol
     if regex.startswith("*") or regex.startswith("+") or regex.startswith("|"):
         raise Exception(f'{regex[0]} is an invalid start of regex on the first position of >{regex[0]}<{regex[1:]}')
@@ -54,21 +62,36 @@ def check_regex(regex:str):
             if char in stack:
                 raise Exception(f'Regex not balanced; {regex[0:index]}>{regex[index]}<{regex[index+1:]}')
         index += 1
+
+    invalid_combinations = ['**', '+*', '*+', '(|', '|)', '||', '(.', '.)', '..', '++', '.+', '+.', '(*', '(+', '+)', '*)', '??']
     #Check for invalid combinations
-    if '**' in regex:
-        index = regex.find('**')
-        raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-    if '+*' in regex:
-        index = regex.find('+*')
-        raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-    elif '*+' in regex:
-        index = regex.find('*+')
-        raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
+    for i in invalid_combinations:
+        if i in regex:
+            index = regex.find(i)
+            raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
+
+    # if '**' in regex:
+    #     index = regex.find('**')
+    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
+    # if '+*' in regex:
+    #     index = regex.find('+*')
+    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
+    # elif '*+' in regex:
+    #     index = regex.find('*+')
+    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
+    # elif '(|' in regex:
+    #     index = regex.find('(|')
+    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
+    # elif ''
+
+    #Check for invalid character combinations
+    # invalid_combinations = [""]
+
 
     #Invalid alternations
-    if '||' in regex:
-        index = regex.find('||')
-        raise Exception(f'Invalid combination of alternations; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
+    # if '||' in regex:
+    #     index = regex.find('||')
+    #     raise Exception(f'Invalid combination of alternations; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
 
 def precedence(char:str):
     if char == '*':
