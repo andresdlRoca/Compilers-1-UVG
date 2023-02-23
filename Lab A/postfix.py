@@ -70,29 +70,6 @@ def check_regex(regex:str):
             index = regex.find(i)
             raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
 
-    # if '**' in regex:
-    #     index = regex.find('**')
-    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-    # if '+*' in regex:
-    #     index = regex.find('+*')
-    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-    # elif '*+' in regex:
-    #     index = regex.find('*+')
-    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-    # elif '(|' in regex:
-    #     index = regex.find('(|')
-    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-    # elif ''
-
-    #Check for invalid character combinations
-    # invalid_combinations = [""]
-
-
-    #Invalid alternations
-    # if '||' in regex:
-    #     index = regex.find('||')
-    #     raise Exception(f'Invalid combination of alternations; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-
 def precedence(char:str):
     if char == '*':
         return 3
