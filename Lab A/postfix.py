@@ -1,4 +1,5 @@
 def infix2postfix(infix_expression: str):
+    infix_expression = format_expression(infix_expression)
     check_regex(infix_expression)
     
     postfix_exp = []
@@ -6,6 +7,7 @@ def infix2postfix(infix_expression: str):
 
     for i in infix_expression:
         if i.isalnum():
+            print(i)
             postfix_exp.append(i)
         elif i == '(':
             stack.append(i)
@@ -27,6 +29,23 @@ def infix2postfix(infix_expression: str):
     else:
         return result
 
+
+def format_expression(infix_expression:str):
+    valid_symbols = ["|", "+", "*", "?"]
+    binary_operators = ["|"]
+    stack = []
+
+    for i, char in enumerate(infix_expression):
+        stack.append(char)
+        if i + 1 < len(infix_expression):
+            nextChar = infix_expression[i+1]
+            if char != '(' and nextChar != ')' and \
+                nextChar not in valid_symbols and \
+                    char not in binary_operators:
+                    stack.append('.')
+    
+    formatted_expression = ''.join(stack)
+    return formatted_expression
 
 #Check some common regex errors
 def check_regex(regex:str):
