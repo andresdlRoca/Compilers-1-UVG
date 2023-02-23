@@ -4,20 +4,21 @@ def infix2postfix(infix_expression: str):
     
     postfix_exp = []
     stack = []
+    symbols = ['|', '.', '*']
 
     for i in infix_expression:
-        if i.isalnum():
-            postfix_exp.append(i)
-        elif i == '(':
+        if i == '(':
             stack.append(i)
         elif i == ')':
-            while stack and stack[-1] != '(':
+            while stack[-1] != "(":
                 postfix_exp.append(stack.pop())
             stack.pop()
-        else:
-            while stack and precedence(i) <= precedence(stack[-1]):
+        elif i in symbols:
+            while stack and stack[-1] != '(' and precedence(i) <= precedence(stack[-1]):
                 postfix_exp.append(stack.pop())
             stack.append(i)
+        else:
+            postfix_exp.append(i)
     
     while stack:
         postfix_exp.append(stack.pop())
