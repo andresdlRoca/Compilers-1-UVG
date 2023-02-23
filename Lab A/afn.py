@@ -9,6 +9,7 @@ class automata:
 def thompson(postfix:str):
     stack = []
     state_count = 0
+    transitions = {}
     epsilon = 'ε'
     alphabet = set(postfix) - set(['|', '.', '*', '(', ')'])
     for symbol in postfix:
@@ -18,9 +19,9 @@ def thompson(postfix:str):
             start_state = state_count
             state_count += 2
             if symbol == '?':
-                transitions = {(state_count-1, epsilon): [accept_state]}
+                transitions.update({(state_count-1, epsilon): [accept_state]})
             else:
-                transitions = {(start_state, symbol): [accept_state]}
+                transitions.update({(start_state, symbol): [accept_state]})
             auto = automata(range(state_count), alphabet, transitions, start_state, [accept_state])
             stack.append(auto)
         elif symbol == '|':
@@ -30,7 +31,7 @@ def thompson(postfix:str):
             accept_state = state_count + 1
             start_state = state_count
             state_count += 2
-            transitions = {**auto1.transitions, **auto2.transitions}
+            transitions.update({**auto1.transitions, **auto2.transitions})
             transitions.update({(start_state, epsilon): [auto1.start_state, auto2.start_state],
                                  (auto1.accept_states[0], epsilon): [accept_state],
                                  (auto2.accept_states[0], epsilon): [accept_state]})
@@ -40,7 +41,7 @@ def thompson(postfix:str):
             # Merge two automatas using concatenation
             auto2 = stack.pop()
             auto1 = stack.pop()
-            transitions = {**auto1.transitions, **auto2.transitions}
+            transitions.update({**auto1.transitions, **auto2.transitions})
             transitions.update({(auto1.accept_states[0], epsilon): [auto2.start_state]})
             auto = automata(range(auto1.states[-1]+1, auto2.states[-1]+1), alphabet.union({epsilon}), transitions, auto1.start_state, [auto2.accept_states[0]])
             stack.append(auto)
@@ -58,9 +59,6 @@ def thompson(postfix:str):
     
     
     last_nfa = stack.pop()
-    last_nfa.start_state = stack[0].start_state
-    for i in stack:
-        last_nfa.transitions.update(i.transitions)
     
     transitionkeys = []
     for i in last_nfa.transitions:
@@ -72,5 +70,4 @@ def thompson(postfix:str):
             transition.update({(i, epsilon): [i+1]})
     
     last_nfa.transitions.update(transition)
-    # return nfa
     return last_nfa
