@@ -1,22 +1,24 @@
 def infix2postfix(infix_expression: str):
+    infix_expression = format_expression(infix_expression)
     check_regex(infix_expression)
     
     postfix_exp = []
     stack = []
+    symbols = ['|', '.', '*']
 
     for i in infix_expression:
-        if i.isalnum():
-            postfix_exp.append(i)
-        elif i == '(':
+        if i == '(':
             stack.append(i)
         elif i == ')':
-            while stack and stack[-1] != '(':
+            while stack[-1] != "(":
                 postfix_exp.append(stack.pop())
             stack.pop()
-        else:
-            while stack and precedence(i) <= precedence(stack[-1]):
+        elif i in symbols:
+            while stack and stack[-1] != '(' and precedence(i) <= precedence(stack[-1]):
                 postfix_exp.append(stack.pop())
             stack.append(i)
+        else:
+            postfix_exp.append(i)
     
     while stack:
         postfix_exp.append(stack.pop())
@@ -27,6 +29,23 @@ def infix2postfix(infix_expression: str):
     else:
         return result
 
+
+def format_expression(infix_expression:str):
+    valid_symbols = ["|", "+", "*", "?"]
+    binary_operators = ["|"]
+    stack = []
+
+    for i, char in enumerate(infix_expression):
+        stack.append(char)
+        if i + 1 < len(infix_expression):
+            nextChar = infix_expression[i+1]
+            if char != '(' and nextChar != ')' and \
+                nextChar not in valid_symbols and \
+                    char not in binary_operators:
+                    stack.append('.')
+    
+    formatted_expression = ''.join(stack)
+    return formatted_expression
 
 #Check some common regex errors
 def check_regex(regex:str):
@@ -63,35 +82,12 @@ def check_regex(regex:str):
                 raise Exception(f'Regex not balanced; {regex[0:index]}>{regex[index]}<{regex[index+1:]}')
         index += 1
 
-    invalid_combinations = ['**', '+*', '*+', '(|', '|)', '||', '(.', '.)', '..', '++', '.+', '+.', '(*', '(+', '+)', '*)', '??']
+    invalid_combinations = ['**', '+*', '*+', '(|', '|)', '||', '(.', '.)', '..', '++', '.+', '(*', '(+', '??']
     #Check for invalid combinations
     for i in invalid_combinations:
         if i in regex:
             index = regex.find(i)
             raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-
-    # if '**' in regex:
-    #     index = regex.find('**')
-    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-    # if '+*' in regex:
-    #     index = regex.find('+*')
-    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-    # elif '*+' in regex:
-    #     index = regex.find('*+')
-    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-    # elif '(|' in regex:
-    #     index = regex.find('(|')
-    #     raise Exception(f'Invalid combination of symbols; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
-    # elif ''
-
-    #Check for invalid character combinations
-    # invalid_combinations = [""]
-
-
-    #Invalid alternations
-    # if '||' in regex:
-    #     index = regex.find('||')
-    #     raise Exception(f'Invalid combination of alternations; {regex[0:index]}>{regex[index]}{regex[index+1]}<{regex[index+2:]}')
 
 def precedence(char:str):
     if char == '*':

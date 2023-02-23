@@ -3,7 +3,10 @@ from regex2automata import reg2automata
 # NFA Testing
 # input = "abbba"
 expresion = "(b|b)*abb(a|b)*"
+# expresion = "0(1)0*"
+# expresion = "(ab)?"
 # expresion = 'ab*ab*'
+# expresion = "a(abb+|bb?a*)"
 
 # Incorrect testing
 # expresion = "(|ab)"

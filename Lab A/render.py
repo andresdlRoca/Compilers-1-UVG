@@ -5,8 +5,8 @@ def automata2graph(automata):
     epsilon = 'ε'
 
     # Add the states
-    print(automata)
     for state in automata.states:
+        
         statestring = f'q{str(state)}'
         if state in automata.accept_states:
             g.node(statestring, shape='doublecircle')
