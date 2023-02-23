@@ -5,7 +5,6 @@ def automata2graph(automata):
     epsilon = 'ε'
 
     # Add the states
-    print(automata.states)
     for state in automata.states:
         
         statestring = f'q{str(state)}'
@@ -13,7 +12,6 @@ def automata2graph(automata):
             g.node(statestring, shape='doublecircle')
         else:
             g.node(statestring, shape='circle')
-        # print(state, automata.start_state)
         if state == automata.start_state:
             g.node(statestring, shape='house')
 

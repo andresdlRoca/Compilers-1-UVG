@@ -7,7 +7,6 @@ def infix2postfix(infix_expression: str):
 
     for i in infix_expression:
         if i.isalnum():
-            print(i)
             postfix_exp.append(i)
         elif i == '(':
             stack.append(i)
@@ -82,7 +81,7 @@ def check_regex(regex:str):
                 raise Exception(f'Regex not balanced; {regex[0:index]}>{regex[index]}<{regex[index+1:]}')
         index += 1
 
-    invalid_combinations = ['**', '+*', '*+', '(|', '|)', '||', '(.', '.)', '..', '++', '.+', '+.', '(*', '(+', '+)', '*)', '??']
+    invalid_combinations = ['**', '+*', '*+', '(|', '|)', '||', '(.', '.)', '..', '++', '.+', '(*', '(+', '??']
     #Check for invalid combinations
     for i in invalid_combinations:
         if i in regex:
