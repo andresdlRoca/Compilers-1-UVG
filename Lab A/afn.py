@@ -43,7 +43,10 @@ def thompson(postfix:str):
             auto1 = stack.pop()
             transitions.update({**auto1.transitions, **auto2.transitions})
             transitions.update({(auto1.accept_states[0], epsilon): [auto2.start_state]})
-            auto = automata(range(auto1.states[-1]+1, auto2.states[-1]+1), alphabet.union({epsilon}), transitions, auto1.start_state, [auto2.accept_states[0]])
+            print((auto2.states[-1]+1) - (auto1.states[-1]+1))
+            states_diff = (auto2.states[-1]+1) - (auto1.states[-1]+1)
+            state_count = (auto1.states[-1]+1) +states_diff 
+            auto = automata(range(state_count), alphabet.union({epsilon}), transitions, auto1.start_state, [auto2.accept_states[0]])
             stack.append(auto)
         elif symbol == '*':
             # Create a new automata with a Kleene star closure
@@ -60,14 +63,4 @@ def thompson(postfix:str):
     
     last_nfa = stack.pop()
     
-    transitionkeys = []
-    for i in last_nfa.transitions:
-        transitionkeys += i
-    
-    transition = {}
-    for i in range(0, max(last_nfa.states) -1):
-        if i not in transitionkeys:
-            transition.update({(i, epsilon): [i+1]})
-    
-    last_nfa.transitions.update(transition)
     return last_nfa
