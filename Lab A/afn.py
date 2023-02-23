@@ -16,14 +16,15 @@ def thompson(postfix:str):
         if symbol in alphabet:
             # Create a new automata with a single transition on this symbol
             if symbol == '?':
-                accept_state = state_count + 1
-                start_state = state_count
-                state_count += 2
+                accept_state = state_count + 1 #Node2
+                start_state = state_count #Node1
+                state_count += 2 
                 transitions.update({(state_count, epsilon): [accept_state]})
                 autooreps = automata(range(state_count), alphabet, transitions, start_state, [accept_state])
                 stack.append(autooreps)
                 auto2 = stack.pop()
                 auto1 = stack.pop()
+                transitions.update({(start_state, epsilon): [accept_state]})
                 accept_state = state_count + 1
                 start_state = state_count
                 state_count += 2
