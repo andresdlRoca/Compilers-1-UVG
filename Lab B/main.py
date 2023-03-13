@@ -3,7 +3,8 @@ from regex2automata import reg2automata
 # NFA Testing
 # input = "abbba"
 # expresion = "(b|b)*abb(a|b)*"
-expresion = "a(a?b*|c+)b|baa"
+expresion = "(a|b)*abb"
+# expresion = "a(a?b*|c+)b|baa"
 # expresion = "a(abb+|bb?a*)ba|bba?a*"
 # expresion = "0(1)0*"
 # expresion = "(ab)?"
@@ -25,3 +26,4 @@ automata = reg2automata(expresion)
 print(automata.get_postfix())
 
 automata.thompson_nfa_construction()
+automata.nfa_to_dfa_construction()

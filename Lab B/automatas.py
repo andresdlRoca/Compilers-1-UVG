@@ -93,7 +93,53 @@ def thompson(postfix:str):
     return last_nfa
 
 def nfa_to_dfa(nfa:automata):
-    pass
+    nfa_states_array = []
+    for i in nfa.states:
+        nfa_states_array.append(i)
+    possible_states_count = 0
+    possible_states = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    created_states = {}
+    alphabet = nfa.alphabet
+    transitions = {}
+    states = []
+
+
+    # for transition in nfa.transitions:
+    #     for char in alphabet:
+    #         if char != nfa.transitions[transition] and nfa.transitions[transition] != "ε":
+    #             nfa.alphabet.add(nfa.transitions[transition]) # NOTA: Chequear por si da error
+
+    start_closure = eps_closure(nfa, nfa.start_state)
+
+    created_states[possible_states[possible_states_count]] = start_closure
+
+    for char in alphabet:
+        initial_state = translate(nfa, char, start_closure)
+        dest_state = eps_closure(nfa, initial_state)
+        
+
+    print(start_closure)
+
+#Funciones que complementan a la conversion nfa -> dfa
+def eps_closure(nfa, states):
+    closure = []
+    
+    for state in range(states):
+        for transition in nfa.transitions:
+            if state in transition and transition[1] == "ε":
+                closure.append(nfa.transitions[transition]) # Appends destination state
+    
+    return closure
+
+def translate(nfa, symbol, states):
+    result = []
+
+    for state in range(states):
+        for transition in nfa.transitions:
+            if state in transition and transition[1] == symbol:
+                result.append(nfa.transitions[transition])
+    result.sort()   
+    return result
 
 def direct_dfa(postfix:str):
     pass
