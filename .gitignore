@@ -5,6 +5,8 @@ automata
 test.py
 test2.py
 !Prelaboratorio A y B.pdf
+!dfa.pdf
+!dfa_min.pdf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
