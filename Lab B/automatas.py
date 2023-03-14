@@ -99,10 +99,10 @@ def nfa_to_dfa(nfa:automata):
     possible_states_count = 0
     possible_states = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     created_states = {}
-    alphabet = nfa.alphabet
+    alphabet = sorted(nfa.alphabet)
     transitions = {}
     states = []
-
+    unmarked_states = []
 
     # for transition in nfa.transitions:
     #     for char in alphabet:
@@ -110,35 +110,117 @@ def nfa_to_dfa(nfa:automata):
     #             nfa.alphabet.add(nfa.transitions[transition]) # NOTA: Chequear por si da error
 
     start_closure = eps_closure(nfa, nfa.start_state)
-
+    states.append(start_closure)
     created_states[possible_states[possible_states_count]] = start_closure
-
     for char in alphabet:
         initial_state = translate(nfa, char, start_closure)
         dest_state = eps_closure(nfa, initial_state)
+        # print(initial_state)
+        # print(dest_state)
+        # print(char)
+        for i in initial_state:
+            for state in i:
+                transitions[(state, char)] = dest_state
+
+        if dest_state not in states:
+            states.append(dest_state)
+            possible_states_count += 1
+            created_states[possible_states[possible_states_count]] = dest_state
+
+    print('transitions', transitions)
+    print('created_states', created_states)
+
+    # unmarked_states.append(start_closure)
+
+    # for state in states:
+    #     if state not in unmarked_states:
+    #         unmarked_states.append(state)
+    #         for char in alphabet:
+    #             initial_state = translate(nfa, char, state)
+    #             dest_state = eps_closure(nfa, initial_state)
+    #             for i in initial_state:
+    #                 for x_state in i:
+    #                     transitions[(x_state, char)] = dest_state
+
+    #             if dest_state not in states:
+    #                 states.append(dest_state)
+    #                 possible_states_count += 1
+    #                 created_states[possible_states[possible_states_count]] = dest_state
+    
+    # print(created_states)
+    # print(transitions)
+    # resulting_transitions = {}
+    # # print(transitions)
+    # for transition in transitions:
+    #     initial_state = ''
+    #     dest_state = ''
+    #     for llave, valor in created_states.items():
+    #         # print("Valor", valor)
+    #         # print("Transition", transition)
+    #         if [transition[0]] in valor:
+    #             initial_state = llave
+    #     for llave,valor in created_states.items():
+    #         if valor == transitions[transition]:
+    #             dest_state = llave
+    #     char = transition[1]
+
+    #     # print(initial_state)
+    #     # print(dest_state)
+    #     resulting_transitions[(initial_state, char)] = dest_state
+    
+    # print(resulting_transitions)
         
 
-    print(start_closure)
+
+    
 
 #Funciones que complementan a la conversion nfa -> dfa
 def eps_closure(nfa, states):
     closure = []
-    
-    for state in range(states):
-        for transition in nfa.transitions:
-            if state in transition and transition[1] == "ε":
-                closure.append(nfa.transitions[transition]) # Appends destination state
-    
-    return closure
+    state_result = []
+    state_array = []
+
+    try:
+        for state in states:
+            state_result.append(state)
+            state_array.append(state)
+        
+        for state in state_array:
+            for transition in nfa.transitions:
+                if transition[1] == 'ε':
+                    state_array.append(nfa.transitions[transition])
+                    state_result.append(nfa.transitions[transition])
+                else:
+                    pass
+        
+        return state_result
+    except:
+        for state in range(states):
+            state_result.append(state)
+            state_array.append(state)
+        
+        for state in state_array:
+            print(state_array)
+            for transition in nfa.transitions:
+
+                if transition[1] == 'ε' and state in transition:
+                    state_array.append(nfa.transitions[transition])
+                    state_result.append(nfa.transitions[transition])
+                else:
+                    pass
+        
+        return state_result
 
 def translate(nfa, symbol, states):
     result = []
 
-    for state in range(states):
+    for state in states:
         for transition in nfa.transitions:
-            if state in transition and transition[1] == symbol:
+            if transition[1] == symbol and state in transition:
                 result.append(nfa.transitions[transition])
-    result.sort()   
+            else:
+                pass
+    
     return result
 
 def direct_dfa(postfix:str):
